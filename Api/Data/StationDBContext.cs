@@ -7,9 +7,9 @@ using Api.Models;
 
 namespace Api.Data
 {
-    public class AppDBContext : DbContext
+    public class StationDBContext : DbContext
     {
-        public AppDBContext (DbContextOptions<AppDBContext> options)
+        public StationDBContext (DbContextOptions<StationDBContext> options)
             : base(options)
         {
         }

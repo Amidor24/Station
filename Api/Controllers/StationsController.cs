@@ -10,9 +10,9 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StationsController(AppDBContext context, HttpClient httpClient, IConfiguration configuration) : ControllerBase
+    public class StationsController(StationDBContext context, HttpClient httpClient, IConfiguration configuration) : ControllerBase
     {
-        private readonly AppDBContext _context = context;
+        private readonly StationDBContext _context = context;
         private readonly HttpClient _httpClient = httpClient;
         private readonly IConfiguration _configuration = configuration;
 

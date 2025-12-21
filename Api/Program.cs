@@ -1,11 +1,11 @@
-using Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
+using Microsoft.Extensions.DependencyInjection;
+using Api.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<AppDBContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AppDBContext")
-    ?? throw new InvalidOperationException("Connection string 'AppDBContext' not found.")));
+builder.Services.AddDbContext<StationDBContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("StationDBContext") ?? throw new InvalidOperationException("Connection string 'StationDBContext' not found.")));
 
 // Add services to the container.
 
