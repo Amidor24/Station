@@ -10,17 +10,11 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StationsController : ControllerBase
+    public class StationsController(AppDBContext context, HttpClient httpClient, IConfiguration configuration) : ControllerBase
     {
-        private readonly AppDBContext _context;
-        private readonly HttpClient _httpClient;
-
-
-        public StationsController(AppDBContext context, HttpClient httpClient)
-        {
-            _context = context;
-            _httpClient = httpClient;
-        }
+        private readonly AppDBContext _context = context;
+        private readonly HttpClient _httpClient = httpClient;
+        private readonly IConfiguration _configuration = configuration;
 
         // GET: api/Stations
         [HttpGet]
@@ -111,7 +105,7 @@ namespace Api.Controllers
         {
             var url = "https://c2ai-cloud.com/api/ds/query";
 
-            var bearerToken = "eyJrIjoibFl1V3FzSWJFZjVsc0s4cFVTeVNuMEVTRkY4aU5qdWoiLCJuIjoidHQiLCJpZCI6Mn0=";
+            var bearerToken = _configuration["Grafana:token"];
 
             var payload = new
             {
