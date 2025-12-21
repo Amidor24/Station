@@ -105,7 +105,7 @@ namespace Api.Controllers
         {
             var url = "https://c2ai-cloud.com/api/ds/query";
 
-            var bearerToken = _configuration["Grafana:token"];
+            var get = _configuration["Grafana:value"];
 
             var payload = new
             {
@@ -135,7 +135,7 @@ namespace Api.Controllers
             var json = JsonSerializer.Serialize(payload);
 
             var request = new HttpRequestMessage(HttpMethod.Post, url);
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", bearerToken);
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", get);
             request.Content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _httpClient.SendAsync(request);
