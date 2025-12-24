@@ -53,3 +53,6 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# EF Core / MSBuild build hosts
+BuildHost-*

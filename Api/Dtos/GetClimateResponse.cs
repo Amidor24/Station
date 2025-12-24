@@ -2,8 +2,9 @@
 {
     public class GetClimateResponse
     {
-        public string Intensite { get; set; }
-        public string Quotidienne { get; set; }
-        public string Totale { get; set; }
+        public DateTime Date { get; set; }
+        public double Intensity { get; set; }
+        public double DailyRain { get; set; }
+        public double TotalRain { get; set; }
     }
 }
