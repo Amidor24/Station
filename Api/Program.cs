@@ -7,15 +7,17 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCleanArchitectureServices(builder.Configuration);
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("StationDBContext")
-    ?? throw new InvalidOperationException("Connection string 'StationDBContext' not found.")));
+
 
 // Add services to the container.
 
 builder.Services.AddControllers();
 builder.Services.AddHttpClient();
-builder.Services.AddOpenApi();
+//builder.Services.AddOpenApi();
+
+// Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 
 WebApplication app = builder.Build();
@@ -23,8 +25,13 @@ WebApplication app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
-    app.MapScalarApiReference();
+    //app.MapOpenApi();
+    //app.MapScalarApiReference();
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Station API v1");
+    });
 }
 
 app.UseHttpsRedirection();

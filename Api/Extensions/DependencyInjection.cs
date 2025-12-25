@@ -16,10 +16,14 @@ namespace Api.Extensions
             // Database
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    configuration.GetConnectionString("DefaultConnection"),
+                    configuration.GetConnectionString("StationDBContext"),
                     sqlOptions =>
                         sqlOptions.MigrationsAssembly(
                             typeof(ApplicationDbContext).Assembly.FullName)));
+
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //options.UseSqlServer(configuration.GetConnectionString("StationDBContext")
+            //?? throw new InvalidOperationException("Connection string 'StationDBContext' not found.")));
 
             // Repositories
             services.AddScoped<IStationRepository, StationRepository>();

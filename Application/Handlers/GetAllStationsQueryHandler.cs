@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Application.Handlers
 {
-    public class GetAllStationsQueryHandler : IRequestHandler<GetAllStationsQuery, IEnumerable<StationDto>>
+    public class GetAllStationsQueryHandler : IRequestHandler<GetAllStationsQuery, IReadOnlyList<StationDto>>
     {
         private readonly IStationRepository _stationRepository;
 
@@ -15,11 +15,16 @@ namespace Application.Handlers
             _stationRepository = stationRepository;
         }
 
-        public async Task<IEnumerable<StationDto>> Handle(GetAllStationsQuery request, CancellationToken cancellationToken)
+        public async Task<IReadOnlyList<StationDto>> Handle(GetAllStationsQuery request, CancellationToken cancellationToken)
         {
-            IEnumerable<Station> stations = await _stationRepository.GetAllAsync(cancellationToken);
+            var stations = await _stationRepository.GetAllAsync(cancellationToken);
 
-            return stations.Select(station => new StationDto(station.Id, station.Name, station.Reference));
+            return stations
+                .Select(station => new StationDto(
+                    station.Id,
+                    station.Name,
+                    station.Reference))
+                .ToList();
         }
     }
 }
