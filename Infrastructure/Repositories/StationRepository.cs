@@ -18,12 +18,13 @@ namespace Infrastructure.Repositories
             return Station;
         }
 
-        public async Task<IEnumerable<Station>> GetAllAsync(CancellationToken ct = default)
+        public async Task<IReadOnlyList<Station>> GetAllAsync(CancellationToken ct = default)
         {
-            List<Station> stations = await _context.Stations.ToListAsync(ct);
-
-            return stations;
+            return await _context.Stations
+                .AsNoTracking()
+                .ToListAsync(ct);
         }
+
 
         public async Task<Station?> GetByIdAsync(Guid id, CancellationToken ct = default)
         {

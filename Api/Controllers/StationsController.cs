@@ -23,22 +23,21 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetStation()
         {
-            try
-            {
-                return Ok(await _mediator.Send(new GetAllStationsQuery()));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
+            var query = new GetAllStationsQuery();
+            var result = await _mediator.Send(query);
+
+            return Ok(result);
         }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetStation(Guid id)
         {
             try
             {
-                return Ok(await _mediator.Send(new GetStationByIdQuery(id)));
+                StationDto stationDto = await _mediator.Send(new GetStationByIdQuery(id));
+
+                return stationDto == null ?  NotFound("Oops!!! Identifiant not correct.") :  Ok(stationDto);
             }
             catch (Exception ex)
             {
@@ -78,7 +77,7 @@ namespace Api.Controllers
         {
             try
             {
-                var result = await _mediator.Send(new DeleteStationCommand(id));
+                bool result = await _mediator.Send(new DeleteStationCommand(id));
 
                 return result ? NoContent() : NotFound();
             }
@@ -127,9 +126,9 @@ namespace Api.Controllers
             };
 
 
-            var json = JsonSerializer.Serialize(payload);
+            string json = JsonSerializer.Serialize(payload);
 
-            var request = new HttpRequestMessage(HttpMethod.Post, url)
+            HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url)
             {
                 Content = new StringContent(json, Encoding.UTF8, "application/json")
             };
